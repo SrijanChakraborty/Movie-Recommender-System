@@ -1,165 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Centered Dropdown with Background</title>
-  <link rel="icon" href="/static/image/web/logo.png" />
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centered Dropdown with Background</title>
+    <link rel="icon" href="/static/image/web/logo.png" />
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
 
-    .bg {
-      background-image: url("/static/image/download1.jpg");
-      height: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-    }
+      .bg {
+        background-image: url("/static/image/download1.jpg");
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+      }
 
-    .dropdown-container {
-      background-color: transparent;
-      padding: 20px;
-      width: 300px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+      .dropdown-container {
+        background-color: transparent;
+        padding: 20px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-    .dropdown-container h2 {
-      font-weight: bold;
-      font-size: 18px;
-      color: #1964b9;
-      margin-bottom: 10px;
-    }
+      .dropdown-container h2 {
+        font-weight: bold;
+        font-size: 18px;
+        color: #1964b9;
+        margin-bottom: 10px;
+      }
 
-    .dropdown-container select {
-      width: 100%;
-      padding: 12px 20px;
-      font-size: 18px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      background-color: rgba(255, 255, 255, 0.7);
-      color: #000;
-      cursor: pointer;
-      box-sizing: border-box;
-      appearance: none; /* Remove the default arrow */
-      background: url('/static/image/down-arrow.png') no-repeat right 10px center; /* Custom arrow image */
-      background-size: 20px 20px; /* Size of the custom arrow */
-    }
+      .dropdown-container select {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 18px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: rgba(255, 255, 255, 0.7);
+        color: #000;
+        cursor: pointer;
+        box-sizing: border-box;
+        appearance: none;
+        background: url("/static/image/down-arrow.png") no-repeat right 10px
+          center;
+        background-size: 20px 20px;
+      }
 
-    .dropdown-container select:focus {
-      outline: none;
-    }
+      .dropdown-container select:focus {
+        outline: none;
+      }
 
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
 
-    .load-more-button,
-    .recommend-button {
-      padding: 8px 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-    }
+      .load-more-button,
+      .recommend-button {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
 
-    .load-more-button {
-      background-color: #007bff;
-      color: white;
-    }
+      .load-more-button {
+        background-color: #007bff;
+        color: white;
+      }
 
-    .load-more-button::after {
-      content: "▼";
-      margin-left: 5px;
-      font-size: 12px;
-    }
+      .load-more-button::after {
+        content: "▼";
+        margin-left: 5px;
+        font-size: 12px;
+      }
 
-    .load-more-button:hover {
-      background-color: #0056b3;
-    }
+      .load-more-button:hover {
+        background-color: #0056b3;
+      }
 
-    .recommend-button {
-      background-color: #28a745;
-      color: white;
-    }
+      .recommend-button {
+        background-color: #28a745;
+        color: white;
+      }
 
-    .recommend-button::after {
-      content: "🌟";
-      margin-left: 5px;
-      font-size: 12px;
-    }
+      .recommend-button::after {
+        content: "🌟";
+        margin-left: 5px;
+        font-size: 12px;
+      }
 
-    .recommend-button:hover {
-      background-color: #218838;
-    }
-  </style>
-</head>
-<body>
-  <div class="bg">
-    <div class="dropdown-container">
-    
-      <select id="dropdown" name="dropdown">
-        <option value="" disabled selected>Select an movies</option>
-      </select>
-      <div class="button-group">
-        <button id="load-more" class="load-more-button">Load More</button>
-        <button id="recommend" class="recommend-button">Recommended</button>
+      .recommend-button:hover {
+        background-color: #218838;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        margin: 0 5px;
+        text-align: center;
+        white-space: nowrap;
+        word-wrap: break-word;
+        text-overflow: ellipsis;
+        max-width: 200px;
+        max-height: 80px;
+      }
+
+      .tab.active {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .tab.arrow {
+        background-color: #e9ecef;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+      }
+
+      .movies-container {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto; /* Allow horizontal scrolling */
+        justify-content: flex-start; /* Align items to the start */
+      }
+
+      .movie-item {
+        margin: 10px;
+        text-align: center;
+        width: 150px;
+        box-sizing: border-box;
+      }
+
+      .movie-item img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .movie-item h3 {
+        margin: 5px 0;
+        font-size: 16px;
+      }
+
+      .movie-item p {
+        font-size: 14px;
+        color: #666;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        padding: 10px 0;
+      }
+
+      .pagination button {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f9f9f9;
+        color: #007bff;
+        cursor: pointer;
+        margin: 0 5px;
+        font-size: 14px;
+      }
+
+      .pagination button.active {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .pagination button:hover {
+        background-color: #e9ecef;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <div class="dropdown-container">
+        <select id="dropdown" name="dropdown">
+          <option value="" disabled selected>Select a movie</option>
+        </select>
+        <div class="button-group">
+          <button id="load-more" class="load-more-button">Load More</button>
+          <button id="recommend" class="recommend-button">Recommended</button>
+        </div>
+        <div class="tabs" id="tabs-container">
+          <!-- Tabs will be inserted here dynamically -->
+        </div>
+        <div class="movies-container" id="movies-container">
+          <!-- Movies will be inserted here -->
+        </div>
       </div>
     </div>
-  </div>
-  <script>
-    const dropdown = document.getElementById("dropdown");
-    const loadMoreButton = document.getElementById("load-more");
-    const recommendButton = document.getElementById("recommend");
-    let currentPage = 1;
-    const pageSize = 10;
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const dropdown = document.getElementById("dropdown");
+        const loadMoreButton = document.getElementById("load-more");
+        const recommendButton = document.getElementById("recommend");
+        const tabsContainer = document.getElementById("tabs-container");
+        const moviesContainer = document.getElementById("movies-container");
+        const paginationContainer = document.createElement("div");
+        paginationContainer.className = "pagination";
+        moviesContainer.parentNode.insertBefore(
+          paginationContainer,
+          moviesContainer.nextSibling
+        );
 
-    function loadMovieTitles(page) {
-      fetch(`/get_movie_titles?page=${page}&limit=${pageSize}`)
-        .then((response) => response.json())
-        .then((titles) => {
-          if (titles.length === 0) {
-            loadMoreButton.style.display = "none"; // Hide button if no more titles
-            return;
+        let currentPage = 1;
+        let currentStartIndex = 0;
+        let currentGenreId = null;
+        const maxVisibleTabs = 10;
+        const moviesPerPage = 10;
+
+        function loadMovieTitles(page) {
+          fetch(`/get_movie_titles?page=${page}&limit=${moviesPerPage}`)
+            .then((response) => response.json())
+            .then((titles) => {
+              if (titles.length === 0) {
+                loadMoreButton.style.display = "none"; // Hide button if no more titles
+                return;
+              }
+              titles.forEach((title) => {
+                const option = document.createElement("option");
+                option.value = title; // Movie ID should be set here if you have it
+                option.textContent = title; // Movie name is set here
+                dropdown.appendChild(option);
+              });
+            })
+            .catch((error) => {
+              console.error("Error fetching movie titles:", error);
+            });
+        }
+
+        function createTabs(genres) {
+          tabsContainer.innerHTML = ""; // Clear existing tabs
+
+          if (currentStartIndex > 0) {
+            const leftArrow = document.createElement("div");
+            leftArrow.className = "tab arrow";
+            leftArrow.textContent = "◄";
+            leftArrow.addEventListener("click", () => {
+              shiftTabsLeft(genres);
+            });
+            tabsContainer.appendChild(leftArrow);
           }
 
-          titles.forEach((title) => {
-            const option = document.createElement("option");
-            option.value = title;
-            option.textContent = title;
-            dropdown.appendChild(option);
+          const visibleTabs = genres.slice(
+            currentStartIndex,
+            currentStartIndex + maxVisibleTabs
+          );
+          visibleTabs.forEach((genre) => {
+            const tab = document.createElement("div");
+            tab.className = "tab";
+            tab.textContent = genre.name;
+            tab.dataset.genreId = genre.id; // Store genre ID
+            tab.addEventListener("click", () => {
+              setActiveTab(tab);
+              fetchMoviesByGenre(genre.id);
+            });
+            tabsContainer.appendChild(tab);
           });
+
+          if (currentStartIndex + maxVisibleTabs < genres.length) {
+            const rightArrow = document.createElement("div");
+            rightArrow.className = "tab arrow";
+            rightArrow.textContent = "►";
+            rightArrow.addEventListener("click", () => {
+              shiftTabsRight(genres);
+            });
+            tabsContainer.appendChild(rightArrow);
+          }
+
+          // Select the first tab if available
+          if (tabsContainer.querySelector(".tab:not(.arrow)")) {
+            const firstTab = tabsContainer.querySelector(".tab:not(.arrow)");
+            setActiveTab(firstTab);
+            fetchMoviesByGenre(firstTab.dataset.genreId);
+          }
+        }
+
+        function setActiveTab(tab) {
+          tabsContainer.querySelectorAll(".tab").forEach((tab) => {
+            tab.classList.remove("active");
+          });
+          tab.classList.add("active");
+        }
+
+        function shiftTabsLeft(genres) {
+          if (currentStartIndex > 0) {
+            currentStartIndex -= 1;
+            createTabs(genres);
+          }
+        }
+
+        function shiftTabsRight(genres) {
+          if (currentStartIndex + maxVisibleTabs < genres.length) {
+            currentStartIndex += 1;
+            createTabs(genres);
+          }
+        }
+
+       function fetchMoviesByGenre(genreId) {
+    if (!genreId) {
+        console.error('Genre ID is not defined');
+        return;
+    }
+    currentGenreId = genreId;
+    console.log("get_movies_by_genre==>" ,currentGenreId )
+    fetch(`/get_movies_by_genre?genre_id=${genreId}&page=${currentPage}&limit=${moviesPerPage}`)
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.movies) {
+                displayMovies(data.movies);
+                updatePagination(data.total_pages);
+            } else {
+                console.error("Error: Movies data is missing");
+            }
         })
-        .catch(error => {
-          console.error('Error fetching movie titles:', error);
+        .catch((error) => {
+            console.error("Error fetching movies:", error);
         });
-    }
+}
 
-    function initializeDropdown() {
-      loadMovieTitles(currentPage);
+        function displayMovies(movies) {
+    moviesContainer.innerHTML = ""; // Clear existing movies
+    movies.forEach((movie) => {
+        const movieItem = document.createElement("div");
+        movieItem.className = "movie-item";
+        const img = document.createElement("img");
+        img.src = movie.poster_path; // Ensure this field matches the API response
+        img.alt = movie.title;
+        const title = document.createElement("h3");
+        title.textContent = movie.title;
+        movieItem.appendChild(img);
+        movieItem.appendChild(title);
+        moviesContainer.appendChild(movieItem);
+    });
+    updatePagination(); // Update pagination after displaying movies
+}
 
-      loadMoreButton.addEventListener("click", () => {
-        currentPage++;
-        loadMovieTitles(currentPage);
+        function updatePagination(totalPages) {
+          paginationContainer.innerHTML = ""; // Clear existing pagination
+          for (let i = 1; i <= totalPages; i++) {
+            // Use totalPages from response
+            const pageButton = document.createElement("button");
+            pageButton.textContent = i;
+            pageButton.addEventListener("click", () => {
+              currentPage = i;
+              fetchMoviesByGenre(currentGenreId);
+            });
+            if (i === currentPage) {
+              pageButton.classList.add("active");
+            }
+            paginationContainer.appendChild(pageButton);
+          }
+        }
+
+        // Initial setup
+        fetch("/get_genres")
+          .then((response) => response.json())
+          .then((genres) => {
+            createTabs(genres);
+            loadMovieTitles(currentPage);
+          })
+          .catch((error) => {
+            console.error("Error fetching genres:", error);
+          });
+
+        loadMoreButton.addEventListener("click", () => {
+          currentPage += 1;
+          loadMovieTitles(currentPage);
+        });
+
+        recommendButton.addEventListener("click", () => {
+          // Add recommendation logic here
+        });
       });
-
-      recommendButton.addEventListener("click", () => {
-        alert("Recommended movie feature is not implemented yet.");
-      });
-    }
-
-    initializeDropdown();
-  </script>
-</body>
+    </script>
+  </body>
 </html>

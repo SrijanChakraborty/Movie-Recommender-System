@@ -21,6 +21,43 @@ def fetch_poster(movieId):
     return full_path
 
 
+@app.route('/get_genres', methods=['GET'])
+def get_genres():
+    url = "https://api.themoviedb.org/3/genre/movie/list?language=en&api_key=ee46d7f2824234db2ff7c05c6c4f665d"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        genres = [{'id': genre['id'], 'name': genre['name']}
+                  for genre in data.get('genres', [])]
+        return jsonify(genres)
+    else:
+        return jsonify({"error": "Failed to fetch genres"}), response.status_code
+
+
+@app.route('/get_movies_by_genre', methods=['GET'])
+def get_movies_by_genre():
+    genre_id = request.args.get('genre_id')
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 10))
+    url = f"https://api.themoviedb.org/3/discover/movie?api_key=ee46d7f2824234db2ff7c05c6c4f665d&with_genres={
+        genre_id}&language=en-US&page={page}"
+    response = requests.get(url)
+    if response.status_code != 200:
+       return jsonify({'error': 'Failed to fetch movies', 'status_code': response.status_code}), response.status_code
+
+    data = response.json()
+    movies = data.get('results', [])
+    total_pages = data.get('total_pages', 1)
+    movie_list = []
+    for movie in movies:
+        movie_list.append({
+            'title': movie.get('title'),
+            'poster_path': f"https://image.tmdb.org/t/p/original/{movie.get('poster_path', '')}"
+        })
+
+    return jsonify({'movies': movie_list, 'total_pages': total_pages})
+
 
 with open('D:/Git Folder/Movie-Recommender-System/PickleFile/movies_name.pkl', 'rb') as file:
     movie_dict = pickle.load(file)
