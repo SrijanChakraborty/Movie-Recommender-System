@@ -340,7 +340,7 @@
         .then((data) => {
             if (data.movies) {
                 displayMovies(data.movies);
-                updatePagination(data.total_pages);
+               // updatePagination(data.total_pages);
             } else {
                 console.error("Error: Movies data is missing");
             }
@@ -351,8 +351,9 @@
 }
 
         function displayMovies(movies) {
-    moviesContainer.innerHTML = ""; // Clear existing movies
-    movies.forEach((movie) => {
+    moviesContainer.innerHTML = ""; 
+      const moviesToDisplay = movies.slice(0, 6);
+    moviesToDisplay.forEach((movie) => {
         const movieItem = document.createElement("div");
         movieItem.className = "movie-item";
         const img = document.createElement("img");
@@ -364,7 +365,7 @@
         movieItem.appendChild(title);
         moviesContainer.appendChild(movieItem);
     });
-    updatePagination(); // Update pagination after displaying movies
+    //updatePagination(); // Update pagination after displaying movies
 }
 
         function updatePagination(totalPages) {
