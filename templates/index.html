@@ -369,9 +369,8 @@
 }
 
         function updatePagination(totalPages) {
-          paginationContainer.innerHTML = ""; // Clear existing pagination
+          paginationContainer.innerHTML = ""; 
           for (let i = 1; i <= totalPages; i++) {
-            // Use totalPages from response
             const pageButton = document.createElement("button");
             pageButton.textContent = i;
             pageButton.addEventListener("click", () => {
