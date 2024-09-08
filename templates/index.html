@@ -147,6 +147,7 @@
         margin-top: 20px;
         display: flex;
         flex-wrap: nowrap;
+        color: #0d399e;
         overflow-x: auto; /* Allow horizontal scrolling */
         justify-content: flex-start; /* Align items to the start */
       }
@@ -155,6 +156,7 @@
         margin: 10px;
         text-align: center;
         width: 150px;
+        background-color: #e9ecef;
         box-sizing: border-box;
       }
 
@@ -328,48 +330,50 @@
           }
         }
 
-       function fetchMoviesByGenre(genreId) {
-    if (!genreId) {
-        console.error('Genre ID is not defined');
-        return;
-    }
-    currentGenreId = genreId;
-    console.log("get_movies_by_genre==>" ,currentGenreId )
-    fetch(`/get_movies_by_genre?genre_id=${genreId}&page=${currentPage}&limit=${moviesPerPage}`)
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.movies) {
+        function fetchMoviesByGenre(genreId) {
+          if (!genreId) {
+            console.error("Genre ID is not defined");
+            return;
+          }
+          currentGenreId = genreId;
+          console.log("get_movies_by_genre==>", currentGenreId);
+          fetch(
+            `/get_movies_by_genre?genre_id=${genreId}&page=${currentPage}&limit=${moviesPerPage}`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.movies) {
                 displayMovies(data.movies);
-               // updatePagination(data.total_pages);
-            } else {
+                // updatePagination(data.total_pages);
+              } else {
                 console.error("Error: Movies data is missing");
-            }
-        })
-        .catch((error) => {
-            console.error("Error fetching movies:", error);
-        });
-}
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching movies:", error);
+            });
+        }
 
         function displayMovies(movies) {
-    moviesContainer.innerHTML = ""; 
-      const moviesToDisplay = movies.slice(0, 6);
-    moviesToDisplay.forEach((movie) => {
-        const movieItem = document.createElement("div");
-        movieItem.className = "movie-item";
-        const img = document.createElement("img");
-        img.src = movie.poster_path; // Ensure this field matches the API response
-        img.alt = movie.title;
-        const title = document.createElement("h3");
-        title.textContent = movie.title;
-        movieItem.appendChild(img);
-        movieItem.appendChild(title);
-        moviesContainer.appendChild(movieItem);
-    });
-    //updatePagination(); // Update pagination after displaying movies
-}
+          moviesContainer.innerHTML = "";
+          const moviesToDisplay = movies.slice(0, 6);
+          moviesToDisplay.forEach((movie) => {
+            const movieItem = document.createElement("div");
+            movieItem.className = "movie-item";
+            const img = document.createElement("img");
+            img.src = movie.poster_path; // Ensure this field matches the API response
+            img.alt = movie.title;
+            const title = document.createElement("h3");
+            title.textContent = movie.title;
+            movieItem.appendChild(img);
+            movieItem.appendChild(title);
+            moviesContainer.appendChild(movieItem);
+          });
+          //updatePagination(); // Update pagination after displaying movies
+        }
 
         function updatePagination(totalPages) {
-          paginationContainer.innerHTML = ""; 
+          paginationContainer.innerHTML = "";
           for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement("button");
             pageButton.textContent = i;
@@ -401,7 +405,37 @@
         });
 
         recommendButton.addEventListener("click", () => {
-          // Add recommendation logic here
+          const dropdown = document.getElementById("dropdown");
+          const selectedMovie = dropdown.value;
+          console.log(selectedMovie);
+          if (!selectedMovie) {
+            alert("Please select a movie first!");
+            return;
+          }
+          window.location.href = `/recommend?movie_title=${encodeURIComponent(
+            selectedMovie
+          )}`;
+          fetch(`/recommend?movie_title=${encodeURIComponent(selectedMovie)}`)
+            .then((response) => {
+              if (response.ok) {
+        response.json().then((data) => {
+          const recommendedMoviesDiv = document.getElementById("recommended-movies");
+          recommendedMoviesDiv.innerHTML = "";
+          data.recommended_movies.forEach((movie) => {
+            const movieDiv = document.createElement("div");
+            movieDiv.innerHTML = `<h2>${movie.title}</h2><img src="${movie.poster_path}" alt="${movie.title} poster">`;
+            recommendedMoviesDiv.appendChild(movieDiv);
+          });
+        });
+
+           // window.location.href = "/recommend"; 
+              } else {
+                console.error("Failed to fetch recommendations");
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching recommendations:", error);
+            });
         });
       });
     </script>
